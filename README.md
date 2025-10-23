@@ -8,4 +8,5 @@ Incluye registro de participantes, ranking final y retos divertidos.
 2. Respondé las 20 preguntas
 3. Sumá puntos y cumplí retos
 4. Compartí el ranking final
+   
 creado por Arkangel75ar el 23/10/2025 en Córdoba, Argentina.
