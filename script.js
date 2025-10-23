@@ -114,4 +114,94 @@ const questions = [
     penalty: "¡Haz una escena de telenovela con suegra invasora!"
   },
   {
-    question: "¿Qué consejo le daría a alguien que
+    question: "¿Qué consejo le daría a alguien que está por casarse?",
+    options: ["Ten paciencia", "Ríe mucho", "No olvides tu esencia", "Hazlo solo si estás segura"],
+    answer: 2,
+    penalty: "¡Da un consejo sabio con voz de gurú!"
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+  const card = document.getElementById("card");
+  const questionEl = document.getElementById("question");
+  const optionsEl = document.getElementById("options");
+  const feedbackEl = document.getElementById("feedback");
+  const scoreEl = document.getElementById("score");
+
+  card.classList.remove("show");
+  setTimeout(() => {
+    card.classList.add("show");
+  }, 100);
+
+  const q = questions[current];
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+  feedbackEl.textContent = "";
+  answered = false;
+  scoreEl.textContent = `Puntaje: ${score}`;
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(i);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(index) {
+  if (answered) return;
+  const feedback = document.getElementById("feedback");
+  const q = questions[current];
+  if (index === q.answer) {
+    feedback.textContent = "✅ ¡Correcto!";
+    feedback.style.color = "green";
+    score++;
+  } else {
+    feedback.textContent = `❌ Incorrecto. Reto: ${q.penalty}`;
+    feedback.style.color = "red";
+  }
+  answered = true;
+  document.getElementById("score").textContent = `Puntaje: ${score}`;
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) {
+    loadQuestion();
+  } else {
+    showFinalScore();
+  }
+}
+
+function showFinalScore() {
+  let mensaje = "";
+  if (score === questions.length) {
+    mensaje = "👑 ¡Sos la reina absoluta de la trivia!";
+  } else if (score >= questions.length * 0.75) {
+    mensaje = "💖 ¡Conocés muy bien a la novia!";
+  } else if (score >= questions.length * 0.5) {
+    mensaje = "😅 ¡No estuvo mal, pero podés mejorar!";
+  } else {
+    mensaje = "😂 ¡Necesitás una charla urgente con la novia!";
+  }
+
+  document.getElementById("card").innerHTML = `
+    <h2>🎉 ¡Juego terminado!</h2>
+    <p class="final">Tu puntaje fue: ${score} de ${questions.length}</p>
+    <p class="final">${mensaje}</p>
+    <button class="next-btn" onclick="restartGame()">Volver a jugar</button>
+  `;
+}
+
+function restartGame() {
+  current = 0;
+  score = 0;
+  answered = false;
+  loadQuestion();
+}
+
+window.onload = loadQuestion;
