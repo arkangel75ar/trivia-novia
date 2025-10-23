@@ -4,72 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trivia de la Novia 💍</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #fff0f5;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-      transition: background 0.5s ease;
-    }
-    h1 {
-      color: #d63384;
-    }
-    .card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.5s ease;
-    }
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .question {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
-    .options button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      background-color: #f8d7da;
-      color: #721c24;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .options button:hover {
-      background-color: #f5c6cb;
-    }
-    .feedback {
-      margin-top: 20px;
-      font-weight: bold;
-      min-height: 40px;
-    }
-    .next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #d63384;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <h1>Trivia de la Novia 💍</h1>
+  <div class="score" id="score">Puntaje: 0</div>
   <div class="card" id="card">
     <div class="question" id="question"></div>
     <div class="options" id="options"></div>
@@ -77,72 +16,6 @@
     <button class="next-btn" onclick="nextQuestion()">Siguiente pregunta</button>
   </div>
 
-  <script>
-    const questions = [/* ← aquí van las 20 preguntas, ya las tenés completas */];
-
-    let current = 0;
-    let answered = false;
-
-    function loadQuestion() {
-      const card = document.getElementById("card");
-      const questionEl = document.getElementById("question");
-      const optionsEl = document.getElementById("options");
-      const feedbackEl = document.getElementById("feedback");
-
-      card.classList.remove("show");
-      setTimeout(() => {
-        card.classList.add("show");
-      }, 100);
-
-      const q = questions[current];
-      questionEl.textContent = q.question;
-      optionsEl.innerHTML = "";
-      feedbackEl.textContent = "";
-      answered = false;
-
-      q.options.forEach((opt, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.onclick = () => checkAnswer(i);
-        optionsEl.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(index) {
-      if (answered) return;
-      const feedback = document.getElementById("feedback");
-      const q = questions[current];
-      if (index === q.answer) {
-        feedback.textContent = "✅ ¡Correcto!";
-        feedback.style.color = "green";
-      } else {
-        feedback.textContent = `❌ Incorrecto. Reto: ${q.penalty}`;
-        feedback.style.color = "red";
-      }
-      answered = true;
-    }
-
-    function nextQuestion() {
-      current++;
-      if (current < questions.length) {
-        loadQuestion();
-      } else {
-        document.getElementById("card").innerHTML = `
-          <h2>🎉 ¡Juego terminado!</h2>
-          <p>Gracias por jugar la Trivia de la Novia 💍</p>
-          <button class="next-btn" onclick="restartGame()">Volver a jugar</button>
-        `;
-      }
-    }
-
-    function restartGame() {
-      current = 0;
-      loadQuestion();
-    }
-
-    // Inicializar
-    loadQuestion();
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
