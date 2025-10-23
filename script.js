@@ -200,7 +200,6 @@ function showFinalScore() {
 function restartGame() {
   current = 0;
   score = 0;
-  answered = false;
   loadQuestion();
 }
 
