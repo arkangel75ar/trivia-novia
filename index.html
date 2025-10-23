@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivia de la Novia 💍</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.5s ease;
+    }
+    h1 {
+      color: #d63384;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #f8d7da;
+      color: #721c24;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .options button:hover {
+      background-color: #f5c6cb;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
+      min-height: 40px;
+    }
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Trivia de la Novia 💍</h1>
+  <div class="card" id="card">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" onclick="nextQuestion()">Siguiente pregunta</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "¿Cuál fue el primer amor platónico de la novia?",
+        options: ["Un profesor", "Un actor famoso", "Un vecino", "Un cantante pop"],
+        answer: 1,
+        penalty: "¡Haz una imitación dramática de una escena romántica!"
+      },
+      {
+        question: "¿Qué es lo más loco que ha hecho por amor?",
+        options: ["Viajar sin avisar", "Tatuarse iniciales", "Escribir una canción", "Llamar 100 veces en un día"],
+        answer: 0,
+        penalty: "¡Haz una declaración de amor a una silla!"
+      },
+      {
+        question: "¿Quién fue su peor cita y por qué?",
+        options: ["El que habló solo de sí mismo", "El que llegó tarde", "El que olvidó su nombre", "El que trajo a su mamá"],
+        answer: 3,
+        penalty: "¡Cuenta tu peor cita en 30 segundos!"
+      },
+      {
+        question: "¿Qué canción no puede faltar en su playlist de fiesta?",
+        options: ["'Single Ladies'", "'Despacito'", "'Tusa'", "'Livin' la Vida Loca'"],
+        answer: 2,
+        penalty: "¡Baila 30 segundos sin música!"
+      },
+      {
+        question: "¿Cuál es su bebida favorita para celebrar?",
+        options: ["Champagne", "Margarita", "Fernet con cola", "Gin tonic"],
+        answer: 2,
+        penalty: "¡Brinda con una bebida inventada por el grupo!"
+      },
+      {
+        question: "¿Qué prenda nunca usaría en su luna de miel?",
+        options: ["Pijama de franela", "Crocs", "Camisa de su ex", "Medias con agujeros"],
+        answer: 0,
+        penalty: "¡Haz un desfile con ropa ridícula!"
+      },
+      {
+        question: "¿Qué parte de la boda le emociona más?",
