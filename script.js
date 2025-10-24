@@ -160,7 +160,9 @@ function iniciarJuego() {
 function loadQuestion() {
   const q = questions[current];
   document.getElementById("question").textContent = q.question;
-  document.getElementById("questionImage").src = q.imageUrl;
+  //document.getElementById("questionImage").src = q.imageUrl;
+  document.getElementById("questionImage").src = "images/pregunta1.jpg";
+
   document.getElementById("options").innerHTML = "";
   document.getElementById("feedback").textContent = "";
   document.getElementById("score").textContent = `Puntaje: ${score}`;
@@ -237,3 +239,4 @@ function reiniciar() {
   document.getElementById("juego").style.display = "none";
   document.getElementById("final").style.display = "none";
 }
+
