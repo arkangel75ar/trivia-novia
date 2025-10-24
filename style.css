@@ -27,6 +27,11 @@ h1 {
   margin: auto;
   transition: all 0.5s ease;
 }
+.card img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+}
 
 .card.show {
   opacity: 1;
@@ -77,3 +82,4 @@ h1 {
   margin-top: 20px;
   color: #ad1457;
 }
+
