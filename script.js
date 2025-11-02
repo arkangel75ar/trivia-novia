@@ -11,6 +11,7 @@ let selectedOptionIndex = -1;
 // **********************************************
 async function loadQuestionsFromCSV() {
   try {
+    // Es CRUCIAL que el archivo CSV esté guardado con CODIFICACIÓN UTF-8.
     const response = await fetch('preguntas.csv');
     if (!response.ok) {
       throw new Error(`Error al cargar el CSV: ${response.statusText}`);
@@ -24,40 +25,62 @@ async function loadQuestionsFromCSV() {
 
   } catch (error) {
     console.error("Fallo al cargar la trivia:", error);
-    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe.";
+    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe y está en UTF-8.";
     document.getElementById("loading-message").classList.add("text-red-500", "font-bold");
   }
 }
 
-// Función para parsear el texto CSV
+// Función revisada para parsear el texto CSV usando REGEX
 function parseCSV(csv) {
-  const lines = csv.split('\n').filter(line => line.trim() !== '');
-  if (lines.length === 0) return [];
-  
-  // Asume la primera línea como encabezados
-  const headers = lines[0].split(',').map(h => h.trim());
-  
-  const parsedQuestions = [];
-  
-  for (let i = 1; i < lines.length; i++) {
-    // Función simple para manejar comas dentro de comillas (funciona para este caso)
-    const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(v => v.replace(/"/g, ''));
+    const parsedQuestions = [];
     
-    if (values.length !== headers.length) {
-        console.warn(`Saltando línea ${i + 1} debido a un formato incorrecto.`);
-        continue;
+    // Expresión regular para dividir la línea por comas (,) pero IGNORAR las comas
+    // que estén dentro de comillas dobles (").
+    const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]*))(?:,|$)/g;
+
+    const lines = csv.split('\n').filter(line => line.trim() !== '');
+    if (lines.length <= 1) return []; // Necesitamos al menos el encabezado y una pregunta.
+
+    // No necesitamos el encabezado para el juego, solo las preguntas a partir de la línea 1
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        let values = [];
+        let match;
+
+        // Iterar sobre la línea usando la expresión regular para extraer los campos.
+        // El REGEX maneja los campos entre comillas y los campos sin comillas.
+        while (match = regex.exec(line)) {
+            let value = match[1] !== undefined ? match[1] : match[2];
+            // Quitar comillas dobles y limpiar espacios
+            value = value ? value.trim().replace(/^"|"$/g, '').replace(/""/g, '"') : '';
+            values.push(value);
+        }
+
+        // Se verifica que tengamos al menos 7 valores: [pregunta, 4 opciones, respuesta, penalizacion]
+        if (values.length < 7) {
+            console.warn(`Saltando línea ${i + 1} debido a formato incorrecto. Se encontraron ${values.length} campos.`);
+            continue;
+        }
+
+        const q = {};
+        q.question = values[0];
+        q.options = [values[1], values[2], values[3], values[4]];
+        q.answer = parseInt(values[5], 10);
+        q.penalty = values[6];
+
+        // Solo agregar si la pregunta tiene un texto válido y una respuesta numérica
+        if (q.question && !isNaN(q.answer)) {
+            parsedQuestions.push(q);
+        }
     }
-    
-    const q = {};
-    q.question = values[0];
-    q.options = [values[1], values[2], values[3], values[4]];
-    q.answer = parseInt(values[5], 10);
-    q.penalty = values[6];
-    
-    parsedQuestions.push(q);
-  }
-  return parsedQuestions;
+    return parsedQuestions;
 }
+
+// ... Resto del script.js ...
+// Asegúrate de que la llamada a loadQuestionsFromCSV() al final del script se mantenga.
+// loadQuestionsFromCSV();
 
 // **********************************************
 // * MODIFICACIONES DE FUNCIONES EXISTENTES *
@@ -260,3 +283,4 @@ function reiniciar() {
 
 // Inicia la carga del CSV al cargar el script.
 loadQuestionsFromCSV();
+
