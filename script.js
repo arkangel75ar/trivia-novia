@@ -8,7 +8,9 @@ let ranking = [];
 async function loadCSV() {
   try {
     const response = await fetch("preguntas.csv");
-    const data = await response.text();
+    const buffer = await response.arrayBuffer(); // obtenemos bytes crudos
+    const decoder = new TextDecoder("utf-8");    // forzamos UTF-8
+    const data = decoder.decode(buffer);
 
     // Separar líneas y quitar encabezado
     const lines = data.trim().split("\n").slice(1);
@@ -32,6 +34,7 @@ async function loadCSV() {
     console.error("Error cargando CSV:", err);
   }
 }
+
 
 function loadQuestion() {
   const q = questions[current];
@@ -121,3 +124,4 @@ function reiniciar() {
   document.getElementById("final").classList.add("hidden");
   document.getElementById("inicio").classList.remove("hidden");
 }
+
