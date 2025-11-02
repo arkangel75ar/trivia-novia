@@ -1,4 +1,4 @@
-let questions = []; 
+let questions = []; // Array vacío para las preguntas cargadas del CSV
 let current = 0;
 let score = 0;
 let nombre = "";
@@ -10,24 +10,16 @@ let selectedOptionIndex = -1;
 // * FUNCIÓN PRINCIPAL PARA CARGAR EL CSV *
 // **********************************************
 async function loadQuestionsFromCSV() {
-  // RUTA DIRECTA AL ARCHIVO RAW EN GITHUB
-  // Esto soluciona los problemas de rutas relativas o caché en GitHub Pages.
-  const csvUrl = 'https://raw.githubusercontent.com/arkangel75ar/trivia-novia/main/preguntas.csv'; 
-  
   try {
-    const response = await fetch(csvUrl);
-    
-    // Verifica si la respuesta HTTP es exitosa
+    const response = await fetch('preguntas.csv');
     if (!response.ok) {
-      throw new Error(`Error HTTP ${response.status} al cargar el CSV desde GitHub.`);
+      throw new Error(`Error al cargar el CSV: ${response.statusText}`);
     }
-    
-    // Obtiene el texto y fuerza la decodificación como UTF-8
     const csvText = await response.text();
     questions = parseCSV(csvText);
     
     if (questions.length === 0) {
-        throw new Error("El archivo CSV no contiene preguntas válidas después del parseo.");
+        throw new Error("El archivo CSV no contiene preguntas válidas.");
     }
 
     // Ocultar el spinner/mensaje de carga y mostrar el inicio
@@ -36,27 +28,20 @@ async function loadQuestionsFromCSV() {
 
   } catch (error) {
     console.error("Fallo al cargar la trivia:", error);
-    document.getElementById("loading-message").innerHTML = `
-        <i class="fas fa-exclamation-triangle mr-3 text-red-500"></i> Error crítico al cargar: ${error.message}
-        <br>Revisa tu conexión o el formato del archivo.
-    `;
+    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe, está en UTF-8 y usa comas (,) como delimitador.";
     document.getElementById("loading-message").classList.add("text-red-500", "font-bold");
   }
 }
 
-// Función revisada y robusta para parsear el texto CSV usando REGEX y manejando \r\n
+// Función revisada y robusta para parsear el texto CSV usando REGEX
 function parseCSV(csv) {
     const parsedQuestions = [];
     
-    // 1. MANEJAR SALTOS DE LÍNEA: Eliminar \r para estandarizar a \n
-    const cleanedCsv = csv.replace(/\r/g, ''); 
-
     // Expresión regular robusta para dividir por comas, ignorando las comas dentro de comillas (")
     const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]*))(?:,|$)/g;
 
-    // 2. Dividir por saltos de línea limpios
-    const lines = cleanedCsv.split('\n').filter(line => line.trim() !== '');
-    if (lines.length <= 1) return []; 
+    const lines = csv.split('\n').filter(line => line.trim() !== '');
+    if (lines.length <= 1) return []; // Necesitamos al menos el encabezado y una pregunta.
 
     // No necesitamos el encabezado, solo las preguntas a partir de la línea 1
     for (let i = 1; i < lines.length; i++) {
@@ -65,9 +50,6 @@ function parseCSV(csv) {
 
         let values = [];
         let match;
-        
-        // CRÍTICO: Reiniciar el índice de la expresión regular para cada nueva línea
-        regex.lastIndex = 0; 
 
         // Iterar sobre la línea usando la expresión regular para extraer los campos.
         while (match = regex.exec(line)) {
@@ -78,13 +60,12 @@ function parseCSV(csv) {
             values.push(value);
         }
 
-        // Se verifica que tengamos exactamente 7 valores
+        // Se verifica que tengamos exactamente 7 valores: [pregunta, 4 opciones, respuesta, penalizacion]
         if (values.length < 7) {
             console.warn(`Saltando línea ${i + 1} debido a formato incorrecto. Se encontraron ${values.length} campos: ${line}`);
             continue;
         }
 
-        // Extracción de campos y conversión de la respuesta a entero
         const q = {};
         q.question = values[0];
         q.options = [values[1], values[2], values[3], values[4]];
@@ -296,5 +277,3 @@ function reiniciar() {
 
 // Inicia la carga del CSV al cargar el script.
 loadQuestionsFromCSV();
-
-
