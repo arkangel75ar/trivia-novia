@@ -1,134 +1,72 @@
-const questions = [
-  {
-    question: "¿Cuál fue el primer amor platónico de la novia?",
-    options: ["Un profesor", "Un actor famoso", "Un vecino", "Un cantante pop"],
-    answer: 1,
-    penalty: "¡Haz una imitación dramática de una escena romántica!"
-  },
-  {
-    question: "¿Qué es lo más loco que ha hecho por amor?",
-    options: ["Viajar sin avisar", "Tatuarse iniciales", "Escribir una canción", "Llamar 100 veces en un día"],
-    answer: 0,
-    penalty: "¡Haz una declaración de amor a una silla!"
-  },
-  {
-    question: "¿Quién fue su peor cita y por qué?",
-    options: ["El que habló solo de sí mismo", "El que llegó tarde", "El que olvidó su nombre", "El que trajo a su mamá"],
-    answer: 3,
-    penalty: "¡Cuenta tu peor cita en 30 segundos!"
-  },
-  {
-    question: "¿Qué canción no puede faltar en su playlist de fiesta?",
-    options: ["'Single Ladies'", "'Despacito'", "'Tusa'", "'Livin' la Vida Loca'"],
-    answer: 2,
-    penalty: "¡Baila 30 segundos sin música!"
-  },
-  {
-    question: "¿Cuál es su bebida favorita para celebrar?",
-    options: ["Champagne", "Margarita", "Fernet con cola", "Gin tonic"],
-    answer: 2,
-    penalty: "¡Brinda con una bebida inventada por el grupo!"
-  },
-  {
-    question: "¿Qué prenda nunca usaría en su luna de miel?",
-    options: ["Pijama de franela", "Crocs", "Camisa de su ex", "Medias con agujeros"],
-    answer: 0,
-    penalty: "¡Haz un desfile con ropa ridícula!"
-  },
-  {
-    question: "¿Qué parte de la boda le emociona más?",
-    options: ["La entrada", "El vals", "La comida", "La noche de bodas"],
-    answer: 0,
-    penalty: "¡Haz una entrada triunfal al estilo telenovela!"
-  },
-  {
-    question: "¿Cuál es su apodo más vergonzoso?",
-    options: ["Chanchita", "Bubu", "Pochi", "Tortuguita"],
-    answer: 3,
-    penalty: "¡Camina como tortuga por 1 minuto!"
-  },
-  {
-    question: "¿Qué hábito extraño tiene al dormir?",
-    options: ["Habla dormida", "Abraza una almohada", "Ronca como oso", "Duerme con los ojos entreabiertos"],
-    answer: 2,
-    penalty: "¡Haz el sonido de un animal dormido!"
-  },
-  {
-    question: "¿Qué haría si se pierde el vestido de novia el día antes?",
-    options: ["Llora sin parar", "Improvisa con cortinas", "Se casa en pijama", "Lo busca por toda la ciudad"],
-    answer: 1,
-    penalty: "¡Haz un desfile con papel higiénico!"
-  },
-  {
-    question: "¿Qué celebridad elegiría para una noche de pasión?",
-    options: ["Ryan Gosling", "Maluma", "Brad Pitt", "Pedro Pascal"],
-    answer: 3,
-    penalty: "¡Haz una mirada seductora a la cámara imaginaria!"
-  },
-  {
-    question: "¿Qué es lo primero que haría si se despierta siendo hombre?",
-    options: ["Se mira al espejo", "Va al baño", "Se toma selfies", "Se prueba ropa masculina"],
-    answer: 0,
-    penalty: "¡Actúa como hombre por 1 minuto!"
-  },
-  {
-    question: "¿Qué objeto no puede faltar en su bolso?",
-    options: ["Labial", "Perfume", "Snacks", "Cepillo de pelo"],
-    answer: 0,
-    penalty: "¡Maquíllate sin espejo!"
-  },
-  {
-    question: "¿Cuál es su fantasía romántica más secreta?",
-    options: ["Bajo la lluvia", "En la playa", "En un avión", "En una biblioteca"],
-    answer: 1,
-    penalty: "¡Haz una escena romántica con sombrero playero!"
-  },
-  {
-    question: "¿Qué haría si se encuentra a su ex en la luna de miel?",
-    options: ["Lo ignora", "Lo saluda con cortesía", "Le presume su felicidad", "Se va del lugar"],
-    answer: 2,
-    penalty: "¡Presume tu felicidad con una pose triunfal!"
-  },
-  {
-    question: "¿Qué parte del cuerpo le gusta más de su pareja?",
-    options: ["Ojos", "Manos", "Espalda", "Sonrisa"],
-    answer: 3,
-    penalty: "¡Haz tu mejor sonrisa falsa!"
-  },
-  {
-    question: "¿Qué película romántica la hace llorar siempre?",
-    options: ["Titanic", "El diario de una pasión", "Ghost", "Bajo la misma estrella"],
-    answer: 1,
-    penalty: "¡Actúa una escena triste con dramatismo!"
-  },
-  {
-    question: "¿Qué haría si se le olvida el nombre de su esposo en el altar?",
-    options: ["Lo inventa", "Lo llama 'amor'", "Se ríe nerviosa", "Se desmaya"],
-    answer: 1,
-    penalty: "¡Haz una escena de boda improvisada!"
-  },
-  {
-    question: "¿Qué haría si su suegra se aparece en la noche de bodas?",
-    options: ["La echa con cariño", "La invita a quedarse", "Finge estar dormida", "Se escapa por la ventana"],
-    answer: 0,
-    penalty: "¡Haz una escena de telenovela con suegra invasora!"
-  },
-  {
-    question: "¿Qué consejo le daría a alguien que está por casarse?",
-    options: ["Ten paciencia", "Ríe mucho", "No olvides tu esencia", "Hazlo solo si estás segura"],
-    answer: 2,
-    penalty: "¡Da un consejo sabio con voz de gurú!"
-  }
-];
-
+let questions = []; // Array vacío para las preguntas cargadas del CSV
 let current = 0;
 let score = 0;
 let nombre = "";
 let ranking = [];
 let answered = false;
-let selectedOptionIndex = -1; // Para rastrear la opción seleccionada
+let selectedOptionIndex = -1;
+
+// **********************************************
+// * FUNCIÓN PRINCIPAL PARA CARGAR EL CSV *
+// **********************************************
+async function loadQuestionsFromCSV() {
+  try {
+    const response = await fetch('preguntas.csv');
+    if (!response.ok) {
+      throw new Error(`Error al cargar el CSV: ${response.statusText}`);
+    }
+    const csvText = await response.text();
+    questions = parseCSV(csvText);
+    
+    // Ocultar el spinner/mensaje de carga y mostrar el inicio
+    document.getElementById("loading-message").classList.add("hidden");
+    document.getElementById("inicio").classList.remove("hidden");
+
+  } catch (error) {
+    console.error("Fallo al cargar la trivia:", error);
+    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe.";
+    document.getElementById("loading-message").classList.add("text-red-500", "font-bold");
+  }
+}
+
+// Función para parsear el texto CSV
+function parseCSV(csv) {
+  const lines = csv.split('\n').filter(line => line.trim() !== '');
+  if (lines.length === 0) return [];
+  
+  // Asume la primera línea como encabezados
+  const headers = lines[0].split(',').map(h => h.trim());
+  
+  const parsedQuestions = [];
+  
+  for (let i = 1; i < lines.length; i++) {
+    // Función simple para manejar comas dentro de comillas (funciona para este caso)
+    const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(v => v.replace(/"/g, ''));
+    
+    if (values.length !== headers.length) {
+        console.warn(`Saltando línea ${i + 1} debido a un formato incorrecto.`);
+        continue;
+    }
+    
+    const q = {};
+    q.question = values[0];
+    q.options = [values[1], values[2], values[3], values[4]];
+    q.answer = parseInt(values[5], 10);
+    q.penalty = values[6];
+    
+    parsedQuestions.push(q);
+  }
+  return parsedQuestions;
+}
+
+// **********************************************
+// * MODIFICACIONES DE FUNCIONES EXISTENTES *
+// **********************************************
 
 function iniciarJuego() {
+  if (questions.length === 0) {
+      return alert("Las preguntas aún no han cargado. Intenta de nuevo.");
+  }
   const input = document.getElementById("nombreInput");
   nombre = input.value.trim();
   if (nombre === "") return alert("Por favor ingresá tu nombre.");
@@ -139,17 +77,22 @@ function iniciarJuego() {
 }
 
 function loadQuestion() {
+  // Asegurarse de que el índice es válido
+  if (current >= questions.length) {
+    mostrarFinal();
+    return;
+  }
+  
   const q = questions[current];
   document.getElementById("question").textContent = q.question;
   document.getElementById("options").innerHTML = "";
   document.getElementById("feedback").textContent = "";
   document.getElementById("score").textContent = `Puntaje: ${score}`;
   answered = false;
-  selectedOptionIndex = -1; // Resetear la selección
+  selectedOptionIndex = -1;
 
   q.options.forEach((opt, i) => {
     const btn = document.createElement("button");
-    // Clase inicial de Tailwind para opciones
     btn.classList.add(
       'option-btn', 
       'bg-white', 'hover:bg-pink-50', 'text-gray-700', 'font-medium',
@@ -166,6 +109,12 @@ function loadQuestion() {
     document.getElementById("options").appendChild(btn);
   });
 }
+
+// Las funciones selectOption, checkAnswer, nextQuestion, mostrarFinal y reiniciar
+// NO necesitan cambios sustanciales, ya que usan la variable 'questions' 
+// que ahora se carga desde el CSV.
+
+// (Mantener las funciones selectOption, checkAnswer, nextQuestion, mostrarFinal, reiniciar sin cambios aquí para ahorrar espacio, asumiendo que ya están en el archivo subido)
 
 function selectOption(index) {
   if (answered) return;
@@ -231,7 +180,6 @@ function checkAnswer(index) {
 
 function nextQuestion() {
   if (!answered) {
-    // Si la persona intenta pasar sin responder, podemos forzar una respuesta o simplemente alertar.
     return alert("Debes seleccionar una opción antes de pasar a la siguiente pregunta.");
   }
   current++;
@@ -309,3 +257,6 @@ function reiniciar() {
   document.getElementById("juego").classList.add("hidden");
   document.getElementById("final").classList.add("hidden");
 }
+
+// Inicia la carga del CSV al cargar el script.
+loadQuestionsFromCSV();
