@@ -11,7 +11,6 @@ let selectedOptionIndex = -1;
 // **********************************************
 async function loadQuestionsFromCSV() {
   try {
-    // Es CRUCIAL que el archivo CSV esté guardado con CODIFICACIÓN UTF-8.
     const response = await fetch('preguntas.csv');
     if (!response.ok) {
       throw new Error(`Error al cargar el CSV: ${response.statusText}`);
@@ -19,29 +18,32 @@ async function loadQuestionsFromCSV() {
     const csvText = await response.text();
     questions = parseCSV(csvText);
     
+    if (questions.length === 0) {
+        throw new Error("El archivo CSV no contiene preguntas válidas.");
+    }
+
     // Ocultar el spinner/mensaje de carga y mostrar el inicio
     document.getElementById("loading-message").classList.add("hidden");
     document.getElementById("inicio").classList.remove("hidden");
 
   } catch (error) {
     console.error("Fallo al cargar la trivia:", error);
-    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe y está en UTF-8.";
+    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe, está en UTF-8 y usa comas (,) como delimitador.";
     document.getElementById("loading-message").classList.add("text-red-500", "font-bold");
   }
 }
 
-// Función revisada para parsear el texto CSV usando REGEX
+// Función revisada y robusta para parsear el texto CSV usando REGEX
 function parseCSV(csv) {
     const parsedQuestions = [];
     
-    // Expresión regular para dividir la línea por comas (,) pero IGNORAR las comas
-    // que estén dentro de comillas dobles (").
+    // Expresión regular robusta para dividir por comas, ignorando las comas dentro de comillas (")
     const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]*))(?:,|$)/g;
 
     const lines = csv.split('\n').filter(line => line.trim() !== '');
     if (lines.length <= 1) return []; // Necesitamos al menos el encabezado y una pregunta.
 
-    // No necesitamos el encabezado para el juego, solo las preguntas a partir de la línea 1
+    // No necesitamos el encabezado, solo las preguntas a partir de la línea 1
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
@@ -50,17 +52,17 @@ function parseCSV(csv) {
         let match;
 
         // Iterar sobre la línea usando la expresión regular para extraer los campos.
-        // El REGEX maneja los campos entre comillas y los campos sin comillas.
         while (match = regex.exec(line)) {
+            // El campo está en match[1] (si estaba entre comillas) o match[2] (si no)
             let value = match[1] !== undefined ? match[1] : match[2];
-            // Quitar comillas dobles y limpiar espacios
+            // Limpiar comillas dobles residuales y espacios
             value = value ? value.trim().replace(/^"|"$/g, '').replace(/""/g, '"') : '';
             values.push(value);
         }
 
-        // Se verifica que tengamos al menos 7 valores: [pregunta, 4 opciones, respuesta, penalizacion]
+        // Se verifica que tengamos exactamente 7 valores: [pregunta, 4 opciones, respuesta, penalizacion]
         if (values.length < 7) {
-            console.warn(`Saltando línea ${i + 1} debido a formato incorrecto. Se encontraron ${values.length} campos.`);
+            console.warn(`Saltando línea ${i + 1} debido a formato incorrecto. Se encontraron ${values.length} campos: ${line}`);
             continue;
         }
 
@@ -71,19 +73,16 @@ function parseCSV(csv) {
         q.penalty = values[6];
 
         // Solo agregar si la pregunta tiene un texto válido y una respuesta numérica
-        if (q.question && !isNaN(q.answer)) {
+        if (q.question && !isNaN(q.answer) && q.options.every(opt => opt.trim() !== '')) {
             parsedQuestions.push(q);
         }
     }
     return parsedQuestions;
 }
 
-// ... Resto del script.js ...
-// Asegúrate de que la llamada a loadQuestionsFromCSV() al final del script se mantenga.
-// loadQuestionsFromCSV();
 
 // **********************************************
-// * MODIFICACIONES DE FUNCIONES EXISTENTES *
+// * FUNCIONES DE JUEGO *
 // **********************************************
 
 function iniciarJuego() {
@@ -100,7 +99,6 @@ function iniciarJuego() {
 }
 
 function loadQuestion() {
-  // Asegurarse de que el índice es válido
   if (current >= questions.length) {
     mostrarFinal();
     return;
@@ -132,12 +130,6 @@ function loadQuestion() {
     document.getElementById("options").appendChild(btn);
   });
 }
-
-// Las funciones selectOption, checkAnswer, nextQuestion, mostrarFinal y reiniciar
-// NO necesitan cambios sustanciales, ya que usan la variable 'questions' 
-// que ahora se carga desde el CSV.
-
-// (Mantener las funciones selectOption, checkAnswer, nextQuestion, mostrarFinal, reiniciar sin cambios aquí para ahorrar espacio, asumiendo que ya están en el archivo subido)
 
 function selectOption(index) {
   if (answered) return;
@@ -222,13 +214,15 @@ function mostrarFinal() {
 
   let mensaje = "";
   let iconClass = "";
-  if (score === questions.length) {
+  const maxScore = questions.length || 1; 
+
+  if (score === maxScore) {
     mensaje = "¡Sos la reina absoluta de la trivia!";
     iconClass = "fas fa-crown text-yellow-500";
-  } else if (score >= questions.length * 0.75) {
+  } else if (score >= maxScore * 0.75) {
     mensaje = "¡Conocés muy bien a la novia!";
     iconClass = "fas fa-heart text-pink-500";
-  } else if (score >= questions.length * 0.5) {
+  } else if (score >= maxScore * 0.5) {
     mensaje = "¡No estuvo mal, pero podés mejorar!";
     iconClass = "fas fa-meh text-yellow-500";
   } else {
@@ -238,7 +232,7 @@ function mostrarFinal() {
 
   document.getElementById("resultadoFinal").innerHTML = `
     <div class="text-3xl font-extrabold text-gray-800 mb-2">
-      <i class="${iconClass} mr-2"></i> ${nombre}, tu puntaje fue ${score} de ${questions.length}.
+      <i class="${iconClass} mr-2"></i> ${nombre}, tu puntaje fue ${score} de ${maxScore}.
     </div>
     <div class="text-xl text-gray-600 italic">${mensaje}</div>
   `;
@@ -283,4 +277,3 @@ function reiniciar() {
 
 // Inicia la carga del CSV al cargar el script.
 loadQuestionsFromCSV();
-
