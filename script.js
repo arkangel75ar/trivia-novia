@@ -1,4 +1,4 @@
-let questions = []; // Array vacío para las preguntas cargadas del CSV
+let questions = []; 
 let current = 0;
 let score = 0;
 let nombre = "";
@@ -10,16 +10,24 @@ let selectedOptionIndex = -1;
 // * FUNCIÓN PRINCIPAL PARA CARGAR EL CSV *
 // **********************************************
 async function loadQuestionsFromCSV() {
+  // RUTA DIRECTA AL ARCHIVO RAW EN GITHUB
+  // Esto soluciona los problemas de rutas relativas o caché en GitHub Pages.
+  const csvUrl = 'https://raw.githubusercontent.com/arkangel75ar/trivia-novia/main/preguntas.csv'; 
+  
   try {
-    const response = await fetch('preguntas.csv');
+    const response = await fetch(csvUrl);
+    
+    // Verifica si la respuesta HTTP es exitosa
     if (!response.ok) {
-      throw new Error(`Error al cargar el CSV: ${response.statusText}`);
+      throw new Error(`Error HTTP ${response.status} al cargar el CSV desde GitHub.`);
     }
+    
+    // Obtiene el texto y fuerza la decodificación como UTF-8
     const csvText = await response.text();
     questions = parseCSV(csvText);
     
     if (questions.length === 0) {
-        throw new Error("El archivo CSV no contiene preguntas válidas.");
+        throw new Error("El archivo CSV no contiene preguntas válidas después del parseo.");
     }
 
     // Ocultar el spinner/mensaje de carga y mostrar el inicio
@@ -28,7 +36,10 @@ async function loadQuestionsFromCSV() {
 
   } catch (error) {
     console.error("Fallo al cargar la trivia:", error);
-    document.getElementById("loading-message").textContent = "Error al cargar las preguntas. Asegúrate de que 'preguntas.csv' existe, está en UTF-8 y usa comas (,) como delimitador.";
+    document.getElementById("loading-message").innerHTML = `
+        <i class="fas fa-exclamation-triangle mr-3 text-red-500"></i> Error crítico al cargar: ${error.message}
+        <br>Revisa tu conexión o el formato del archivo.
+    `;
     document.getElementById("loading-message").classList.add("text-red-500", "font-bold");
   }
 }
@@ -277,3 +288,4 @@ function reiniciar() {
 
 // Inicia la carga del CSV al cargar el script.
 loadQuestionsFromCSV();
+
