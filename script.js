@@ -44,15 +44,19 @@ async function loadQuestionsFromCSV() {
   }
 }
 
-// Función revisada y robusta para parsear el texto CSV usando REGEX
+// Función revisada y robusta para parsear el texto CSV usando REGEX y manejando \r\n
 function parseCSV(csv) {
     const parsedQuestions = [];
     
+    // 1. MANEJAR SALTOS DE LÍNEA: Eliminar \r para estandarizar a \n
+    const cleanedCsv = csv.replace(/\r/g, ''); 
+
     // Expresión regular robusta para dividir por comas, ignorando las comas dentro de comillas (")
     const regex = /(?:"([^"]*(?:""[^"]*)*)"|([^,]*))(?:,|$)/g;
 
-    const lines = csv.split('\n').filter(line => line.trim() !== '');
-    if (lines.length <= 1) return []; // Necesitamos al menos el encabezado y una pregunta.
+    // 2. Dividir por saltos de línea limpios
+    const lines = cleanedCsv.split('\n').filter(line => line.trim() !== '');
+    if (lines.length <= 1) return []; 
 
     // No necesitamos el encabezado, solo las preguntas a partir de la línea 1
     for (let i = 1; i < lines.length; i++) {
@@ -61,6 +65,9 @@ function parseCSV(csv) {
 
         let values = [];
         let match;
+        
+        // CRÍTICO: Reiniciar el índice de la expresión regular para cada nueva línea
+        regex.lastIndex = 0; 
 
         // Iterar sobre la línea usando la expresión regular para extraer los campos.
         while (match = regex.exec(line)) {
@@ -71,12 +78,13 @@ function parseCSV(csv) {
             values.push(value);
         }
 
-        // Se verifica que tengamos exactamente 7 valores: [pregunta, 4 opciones, respuesta, penalizacion]
+        // Se verifica que tengamos exactamente 7 valores
         if (values.length < 7) {
             console.warn(`Saltando línea ${i + 1} debido a formato incorrecto. Se encontraron ${values.length} campos: ${line}`);
             continue;
         }
 
+        // Extracción de campos y conversión de la respuesta a entero
         const q = {};
         q.question = values[0];
         q.options = [values[1], values[2], values[3], values[4]];
@@ -288,4 +296,5 @@ function reiniciar() {
 
 // Inicia la carga del CSV al cargar el script.
 loadQuestionsFromCSV();
+
 
