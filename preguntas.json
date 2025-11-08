@@ -1,0 +1,182 @@
+[
+  {
+    "pregunta": "¿Cuál fue el primer amor platónico de la novia?",
+    "opcion1": "Un profesor",
+    "opcion2": "Un actor famoso",
+    "opcion3": "Un vecino",
+    "opcion4": "Un cantante pop",
+    "respuesta": 1,
+    "penalizacion": "¡Haz una imitación dramática de una escena romántica!"
+  },
+  {
+    "pregunta": "¿Qué es lo más loco que ha hecho por amor?",
+    "opcion1": "Viajar sin avisar",
+    "opcion2": "Tatuarse iniciales",
+    "opcion3": "Escribir una canción",
+    "opcion4": "Llamar 100 veces en un día",
+    "respuesta": 0,
+    "penalizacion": "¡Haz una declaración de amor a una silla!"
+  },
+  {
+    "pregunta": "¿Quién fue su peor cita y por qué?",
+    "opcion1": "El que habló solo de sí mismo",
+    "opcion2": "El que llegó tarde",
+    "opcion3": "El que olvidó su nombre",
+    "opcion4": "El que trajo a su mamá",
+    "respuesta": 3,
+    "penalizacion": "¡Cuenta tu peor cita en 30 segundos!"
+  },
+  {
+    "pregunta": "¿Qué canción no puede faltar en su playlist de fiesta?",
+    "opcion1": "'Single Ladies'",
+    "opcion2": "'Despacito'",
+    "opcion3": "'Tusa'",
+    "opcion4": "'Livin' la Vida Loca'",
+    "respuesta": 2,
+    "penalizacion": "¡Baila 30 segundos sin música!"
+  },
+  {
+    "pregunta": "¿Cuál es su bebida favorita para celebrar?",
+    "opcion1": "Champagne",
+    "opcion2": "Margarita",
+    "opcion3": "Fernet con cola",
+    "opcion4": "Gin tonic",
+    "respuesta": 2,
+    "penalizacion": "¡Brinda con una bebida inventada por el grupo!"
+  },
+  {
+    "pregunta": "¿Qué prenda nunca usaría en su luna de miel?",
+    "opcion1": "Pijama de franela",
+    "opcion2": "Crocs",
+    "opcion3": "Camisa de su ex",
+    "opcion4": "Medias con agujeros",
+    "respuesta": 0,
+    "penalizacion": "¡Haz un desfile con ropa ridícula!"
+  },
+  {
+    "pregunta": "¿Qué parte de la boda le emociona más?",
+    "opcion1": "La entrada",
+    "opcion2": "El vals",
+    "opcion3": "La comida",
+    "opcion4": "La noche de bodas",
+    "respuesta": 0,
+    "penalizacion": "¡Haz una entrada triunfal al estilo telenovela!"
+  },
+  {
+    "pregunta": "¿Cuál es su apodo más vergonzoso?",
+    "opcion1": "Chanchita",
+    "opcion2": "Bubu",
+    "opcion3": "Pochi",
+    "opcion4": "Tortuguita",
+    "respuesta": 3,
+    "penalizacion": "¡Camina como tortuga por 1 minuto!"
+  },
+  {
+    "pregunta": "¿Qué hábito extraño tiene al dormir?",
+    "opcion1": "Habla dormida",
+    "opcion2": "Abraza una almohada",
+    "opcion3": "Ronca como oso",
+    "opcion4": "Duerme con los ojos entreabiertos",
+    "respuesta": 2,
+    "penalizacion": "¡Haz el sonido de un animal dormido!"
+  },
+  {
+    "pregunta": "¿Qué haría si se pierde el vestido de novia el día antes?",
+    "opcion1": "Llora sin parar",
+    "opcion2": "Improvisa con cortinas",
+    "opcion3": "Se casa en pijama",
+    "opcion4": "Lo busca por toda la ciudad",
+    "respuesta": 1,
+    "penalizacion": "¡Haz un desfile con papel higiénico!"
+  },
+  {
+    "pregunta": "¿Qué celebridad elegiría para una noche de pasión?",
+    "opcion1": "Ryan Gosling",
+    "opcion2": "Maluma",
+    "opcion3": "Brad Pitt",
+    "opcion4": "Pedro Pascal",
+    "respuesta": 3,
+    "penalizacion": "¡Haz una mirada seductora a la cámara imaginaria!"
+  },
+  {
+    "pregunta": "¿Qué es lo primero que haría si se despierta siendo hombre?",
+    "opcion1": "Se mira al espejo",
+    "opcion2": "Va al baño",
+    "opcion3": "Se toma selfies",
+    "opcion4": "Se prueba ropa masculina",
+    "respuesta": 0,
+    "penalizacion": "¡Actúa como hombre por 1 minuto!"
+  },
+  {
+    "pregunta": "¿Qué objeto no puede faltar en su bolso?",
+    "opcion1": "Labial",
+    "opcion2": "Perfume",
+    "opcion3": "Snacks",
+    "opcion4": "Cepillo de pelo",
+    "respuesta": 0,
+    "penalizacion": "¡Maquíllate sin espejo!"
+  },
+  {
+    "pregunta": "¿Cuál es su fantasía romántica más secreta?",
+    "opcion1": "Bajo la lluvia",
+    "opcion2": "En la playa",
+    "opcion3": "En un avión",
+    "opcion4": "En una biblioteca",
+    "respuesta": 1,
+    "penalizacion": "¡Haz una escena romántica con sombrero playero!"
+  },
+  {
+    "pregunta": "¿Qué haría si se encuentra a su ex en la luna de miel?",
+    "opcion1": "Lo ignora",
+    "opcion2": "Lo saluda con cortesía",
+    "opcion3": "Le presume su felicidad",
+    "opcion4": "Se va del lugar",
+    "respuesta": 2,
+    "penalizacion": "¡Presume tu felicidad con una pose triunfal!"
+  },
+  {
+    "pregunta": "¿Qué parte del cuerpo le gusta más de su pareja?",
+    "opcion1": "Ojos",
+    "opcion2": "Manos",
+    "opcion3": "Espalda",
+    "opcion4": "Sonrisa",
+    "respuesta": 3,
+    "penalizacion": "¡Haz tu mejor sonrisa falsa!"
+  },
+  {
+    "pregunta": "¿Qué película romántica la hace llorar siempre?",
+    "opcion1": "Titanic",
+    "opcion2": "El diario de una pasión",
+    "opcion3": "Ghost",
+    "opcion4": "Bajo la misma estrella",
+    "respuesta": 1,
+    "penalizacion": "¡Actúa una escena triste con dramatismo!"
+  },
+  {
+    "pregunta": "¿Qué haría si se le olvida el nombre de su esposo en el altar?",
+    "opcion1": "Lo inventa",
+    "opcion2": "Lo llama 'amor'",
+    "opcion3": "Se ríe nerviosa",
+    "opcion4": "Se desmaya",
+    "respuesta": 1,
+    "penalizacion": "¡Haz una escena de boda improvisada!"
+  },
+  {
+    "pregunta": "¿Qué haría si su suegra se aparece en la noche de bodas?",
+    "opcion1": "La echa con cariño",
+    "opcion2": "La invita a quedarse",
+    "opcion3": "Finge estar dormida",
+    "opcion4": "Se escapa por la ventana",
+    "respuesta": 0,
+    "penalizacion": "¡Haz una escena de telenovela con suegra invasora!"
+  },
+  {
+    "pregunta": "¿Qué consejo le daría a alguien que está por casarse?",
+    "opcion1": "Ten paciencia",
+    "opcion2": "Ríe mucho",
+    "opcion3": "No olvides tu esencia",
+    "opcion4": "Hazlo solo si estás segura",
+    "respuesta": 2,
+    "penalizacion": "¡Da un consejo sabio con voz de gurú!"
+  }
+]
