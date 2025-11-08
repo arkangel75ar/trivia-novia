@@ -23,6 +23,72 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+    /* --- Estilos Generales y de Base (Tu código actual) --- */
+
+/* ... (Mantener tu código CSS actual aquí) ... */
+
+
+/* --- RESPONSIVE ADJUSTMENTS: Media Query para Móviles (Max-width: 600px) --- */
+@media (max-width: 600px) {
+    /* 1. Contenedor Principal (Cuerpo) */
+    body {
+        /* Reducir el padding general para dar más espacio al contenido */
+        padding: 10px;
+    }
+
+    /* 2. Contenedores de Pantalla (Inicio, Juego, Final) */
+    #inicio, #juego, #final {
+        padding: 20px 15px; /* Reducir el padding interno */
+        max-width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+        margin: 0 auto;
+    }
+
+    /* 3. Títulos y Fuentes */
+    h1 {
+        font-size: 1.8em; /* Reducir tamaño del título principal */
+    }
+    h2 {
+        font-size: 1.4em; /* Reducir tamaño de subtítulos */
+    }
+    .question {
+        font-size: 1em; /* Reducir tamaño del texto de la pregunta */
+    }
+    #score, #jugadora {
+        font-size: 0.9em; /* Reducir tamaño del puntaje y jugador */
+    }
+
+    /* 4. Opciones de Respuesta */
+    .options {
+        /* Asegurar que el contenedor ocupe el 100% y las opciones se apilen */
+        flex-direction: column;
+        gap: 10px;
+        padding: 0;
+    }
+
+    .option-btn {
+        padding: 12px; /* Reducir el padding de los botones de opción */
+        font-size: 0.9em;
+        width: 100%; /* Asegurar que los botones ocupen todo el ancho */
+        text-align: left; /* Mantener texto alineado a la izquierda para mejor lectura */
+    }
+
+    /* 5. Imagen y Botones de Navegación */
+    #questionImage {
+        height: 150px; /* Reducir la altura de la imagen en móvil */
+        margin-bottom: 15px;
+    }
+
+    .next-btn {
+        padding: 10px 20px; /* Reducir el tamaño del botón Siguiente */
+        font-size: 1em;
+    }
+
+    /* 6. Ranking */
+    #ranking li {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+}
   </style>
 
 </head>
@@ -85,4 +151,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
